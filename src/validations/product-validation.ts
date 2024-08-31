@@ -6,4 +6,10 @@ export class ProductValidation {
     price: z.string(),
     image: z.string(),
   });
+
+  static readonly UPDATE: ZodType = z.object({
+    name: z.string().optional(),
+    price: z.string().optional(),
+    image: z.string().optional(),
+  });
 }

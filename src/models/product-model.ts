@@ -6,6 +6,12 @@ export type IProduct = {
   image: string;
 };
 
+export type UpdateProductRequest = {
+  name?: string;
+  price?: string;
+  image?: string;
+};
+
 export type CreateProductRequest = IProduct;
 export type ProductResponse = IProduct;
 

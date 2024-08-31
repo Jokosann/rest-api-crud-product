@@ -34,49 +34,15 @@ Response Body (failed) :
 }
 ```
 
-## Update - patch
+## Update
 
-Endpoint : PATCH /api/products/:id
+Endpoint : PATCH /api/products/current
 
 Request Body :
 
 ```json
 {
   "name": "product1 update"
-}
-```
-
-Response Body (success) :
-
-```json
-{
-  "data": {
-    "name": "product1 update",
-    "price": "99999",
-    "image": "https://"
-  }
-}
-```
-
-Response Body (failed) :
-
-```json
-{
-  "errors": "Name and price must not blank, ..."
-}
-```
-
-## Update - put
-
-Endpoint : PUT /api/products/:id
-
-Request Body :
-
-```json
-{
-  "name": "product1 update",
-  "price": "99999",
-  "image": "https://"
 }
 ```
 
