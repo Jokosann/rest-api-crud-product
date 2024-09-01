@@ -36,7 +36,7 @@ Response Body (failed) :
 
 ## Update
 
-Endpoint : PATCH /api/products/current
+Endpoint : PATCH /api/products/:id
 
 Request Body :
 

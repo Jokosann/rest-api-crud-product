@@ -26,4 +26,26 @@ export class ProductController {
       next(e);
     }
   }
+
+  static async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      await ProductServive.delete(req.params.id);
+      res.status(200).json({
+        data: 'success.',
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  static async get(req: Request, res: Response, next: NextFunction) {
+    try {
+      const products = await ProductServive.get();
+      res.status(200).json({
+        data: products,
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
 }

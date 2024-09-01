@@ -8,7 +8,7 @@ export class ProductValidation {
   });
 
   static readonly UPDATE: ZodType = z.object({
-    name: z.string().optional(),
+    name: z.string().min(1).max(250).optional(),
     price: z.string().optional(),
     image: z.string().optional(),
   });

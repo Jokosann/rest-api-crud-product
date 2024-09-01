@@ -2,6 +2,7 @@ import supertest from 'supertest';
 import { ProductTest } from './test-utils';
 import { logger } from '../src/utils/logging';
 import { app } from '../src/index';
+import { prisma } from '../src/utils/db';
 
 describe('All products API describe', () => {
   describe('POST /api/products', () => {
@@ -36,7 +37,7 @@ describe('All products API describe', () => {
     });
   });
 
-  describe('PATCH /api/product/current', () => {
+  describe('PATCH /api/product/:id', () => {
     beforeEach(async () => {
       await ProductTest.create();
     });
@@ -46,10 +47,10 @@ describe('All products API describe', () => {
     });
 
     it('should tobe invalid', async () => {
-      const response = await supertest(app).patch('/api/products/current').send({ name: '' });
+      const response = await supertest(app).patch('/api/products/hdhdh').send({ name: 'hhdhdhhd' });
 
       logger.debug(response.body);
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
 
@@ -59,6 +60,84 @@ describe('All products API describe', () => {
       logger.debug(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.price).toBe('88888');
+    });
+  });
+
+  describe('DELETE /api/product/:id', () => {
+    beforeEach(async () => {
+      await ProductTest.create();
+    });
+
+    afterEach(async () => {
+      await ProductTest.delete();
+    });
+
+    it('should tobe invalid', async () => {
+      const response = await supertest(app).delete('/api/products/hdhdh');
+
+      logger.debug(response.body);
+      expect(response.status).toBe(404);
+      expect(response.body.errors).toBeDefined();
+    });
+
+    it('should tobe success delete product', async () => {
+      const response = await supertest(app).delete('/api/products/test');
+
+      logger.debug(response.body);
+      expect(response.status).toBe(200);
+      expect(response.body.data).toBe('success.');
+    });
+  });
+
+  describe('GET /api/product', () => {
+    beforeEach(async () => {
+      await prisma.product.create({
+        data: {
+          id: 'test1',
+          name: 'test',
+          price: '99999',
+          image: 'http://',
+        },
+      });
+
+      await prisma.product.create({
+        data: {
+          id: 'test2',
+          name: 'test',
+          price: '99999',
+          image: 'http://',
+        },
+      });
+
+      await prisma.product.create({
+        data: {
+          id: 'test3',
+          name: 'test',
+          price: '99999',
+          image: 'http://',
+        },
+      });
+    });
+
+    afterEach(async () => {
+      await prisma.product.delete({
+        where: { id: 'test1' },
+      });
+
+      await prisma.product.delete({
+        where: { id: 'test2' },
+      });
+
+      await prisma.product.delete({
+        where: { id: 'test3' },
+      });
+    });
+
+    it('should tobe success get all product', async () => {
+      const response = await supertest(app).get('/api/products');
+
+      logger.debug(response.body);
+      expect(response.status).toBe(200);
     });
   });
 });
